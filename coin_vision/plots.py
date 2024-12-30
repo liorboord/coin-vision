@@ -40,13 +40,9 @@ def plot_and_save_history(history, test_loss, test_accuracy, labels_dict, save_f
 
     print(f"Plots and results saved in folder: {save_folder}")
 
-import os
-import matplotlib.pyplot as plt
-import pandas as pd
-
 def plot_and_save_run_results(results, save_folder="reports"):
     """
-    Generate and save various plots to evaluate model performance.
+    Generate and save various plots to evaluate model performance with a custom dark theme.
     
     Args:
         results (DataFrame): A DataFrame with columns:
@@ -58,11 +54,24 @@ def plot_and_save_run_results(results, save_folder="reports"):
     """
     os.makedirs(save_folder, exist_ok=True)
     
-    plt.style.use('dark_background')
+    # Define custom colors
+    background_color = '#0D1117'  # Dark background
     primary_color = '#58a6ff'  # Blue
     secondary_color = '#8b949e'  # Grey
     accent_color = '#c9d1d9'  # White
-    
+
+    # Set figure defaults
+    plt.rcParams.update({
+        'axes.facecolor': background_color,
+        'figure.facecolor': background_color,
+        'axes.edgecolor': secondary_color,
+        'axes.labelcolor': accent_color,
+        'xtick.color': accent_color,
+        'ytick.color': accent_color,
+        'grid.color': secondary_color,
+        'text.color': accent_color
+    })
+
     # Absolute Error
     results['absolute_error'] = abs(results['coin_value'] - results['true_coin_value'])
     
@@ -71,64 +80,54 @@ def plot_and_save_run_results(results, save_folder="reports"):
 
     # Plot 1: Scatter Plot - Predicted vs True Coin Values
     plt.figure(figsize=(8, 6))
-    plt.scatter(results['true_coin_value'], results['coin_value'], alpha=0.7, label="Predictions")
+    plt.scatter(results['true_coin_value'], results['coin_value'], alpha=0.7, color=primary_color, label="Predictions")
     plt.plot(
         [results['true_coin_value'].min(), results['true_coin_value'].max()],
         [results['true_coin_value'].min(), results['true_coin_value'].max()],
-        color='red', linestyle='--', label="Perfect Prediction"
+        color=secondary_color, linestyle='--', label="Perfect Prediction"
     )
     plt.title("Predicted vs True Coin Values")
     plt.xlabel("True Coin Value")
     plt.ylabel("Predicted Coin Value")
     plt.legend()
     plt.grid(alpha=0.3)
-    plt.savefig(os.path.join(save_folder, "scatter_predicted_vs_true.png"))
+    plt.savefig(os.path.join(save_folder, "scatter_predicted_vs_true.png"), transparent=True)
     plt.close()
 
     # Plot 2: Bar Plot - Absolute Error per Image
     plt.figure(figsize=(10, 6))
-    plt.bar(results['filename'], results['absolute_error'], color='orange', alpha=0.8)
+    plt.bar(results['filename'], results['absolute_error'], color=primary_color, alpha=0.8)
     plt.title("Absolute Error per Image")
     plt.xlabel("Image Filename")
     plt.ylabel("Absolute Error")
     plt.xticks(rotation=90, fontsize=8)
     plt.tight_layout()
-    plt.savefig(os.path.join(save_folder, "absolute_error_per_image.png"))
+    plt.savefig(os.path.join(save_folder, "absolute_error_per_image.png"), transparent=True)
     plt.close()
 
     # Plot 3: Histogram - Percentage Error Distribution
     plt.figure(figsize=(8, 6))
-    plt.hist(results['percentage_error'], bins=20, color='blue', alpha=0.7)
+    plt.hist(results['percentage_error'], bins=20, color=primary_color, alpha=0.7)
     plt.title("Percentage Error Distribution")
     plt.xlabel("Percentage Error")
     plt.ylabel("Frequency")
     plt.grid(alpha=0.3)
-    plt.savefig(os.path.join(save_folder, "percentage_error_distribution.png"))
+    plt.savefig(os.path.join(save_folder, "percentage_error_distribution.png"), transparent=True)
     plt.close()
 
     # Plot 4: Cumulative Sum - True vs Predicted Coin Values
     results['cumulative_true'] = results['true_coin_value'].cumsum()
     results['cumulative_predicted'] = results['coin_value'].cumsum()
     plt.figure(figsize=(10, 6))
-    plt.plot(results['cumulative_true'], label="Cumulative True Values", color='green')
-    plt.plot(results['cumulative_predicted'], label="Cumulative Predicted Values", linestyle='--', color='blue')
+    plt.plot(results['cumulative_true'], label="Cumulative True Values", color=primary_color)
+    plt.plot(results['cumulative_predicted'], label="Cumulative Predicted Values", linestyle='--', color=secondary_color)
     plt.title("Cumulative True vs Predicted Coin Values")
     plt.xlabel("Image Index")
     plt.ylabel("Cumulative Coin Value")
     plt.legend()
     plt.grid(alpha=0.3)
-    plt.savefig(os.path.join(save_folder, "cumulative_true_vs_predicted.png"))
+    plt.savefig(os.path.join(save_folder, "cumulative_true_vs_predicted.png"), transparent=True)
     plt.close()
 
-    # Save Metrics Summary as CSV
-    metrics_summary = {
-        "Mean Absolute Error": results['absolute_error'].mean(),
-        "Overall Accuracy": 1 - (abs(results['coin_value'].sum() - results['true_coin_value'].sum()) / results['true_coin_value'].sum()),
-        "R-Squared": (1 - ((results['coin_value'] - results['true_coin_value'])**2).sum() /
-                        ((results['true_coin_value'] - results['true_coin_value'].mean())**2).sum())
-    }
-    metrics_df = pd.DataFrame.from_dict(metrics_summary, orient='index', columns=["Value"])
-    metrics_df.to_csv(os.path.join(save_folder, "metrics_summary.csv"))
-
-    print(f"Plots and metrics saved in {save_folder}")
+    print(f"Plots saved in {save_folder}")
 
