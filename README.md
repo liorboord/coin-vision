@@ -4,38 +4,142 @@
     <img src="https://img.shields.io/badge/CCDS-Project%20template-328F97?logo=cookiecutter" />
 </a>
 
-The Coin Detection Project is a computer vision application designed to identify and extract coins from images with precision. Using the YOLOv8 object detection model for initial identication and MobileNetV2 for coin classifaction. The project first detects circular or oval shapes that correspond to coins in various image formats and then match them to one of the 8 coinc classes. It outputs the value of the coins presented in the picture.
+The coin-vision Project is a computer vision application designed to identify and extract coins from images with precision. Using the YOLOv8 object detection model for initial identication and MobileNetV2 for coin classifaction. The project first detects circular or oval shapes that correspond to coins in various image formats and then match them to one of the 8 coinc classes. It outputs the value of the coins presented in the picture.
 
-+-------------------------------+
-|    Input Image with Coins     |
-+-------------------------------+
-                |
-                v
-+--------------------------------+
-|    YOLOv8: Detect Coins         |
-+--------------------------------+
-                |
-                v
-+-------------------------------------------+
-|  Filter Detections:                        |
-|  - Remove Duplicates                       |
-|  - Identify Circular/Oval Shapes           |
-+-------------------------------------------+
-                |
-                v
-+-----------------------------------+
-|  MobileNetV2: Classify Each Coin  |
-+-----------------------------------+
-                |
-                v
-+---------------------------------+
-|  Calculate Total Coin Value     |
-+---------------------------------+
-                |
-                v
-+----------------------------------+
-|   Output the Overall Coin Value  |
-+----------------------------------+
+```mermaid
+flowchart TD
+    A[Input Image with Coins]
+    A --> B[YOLOv8: Detect Coins]
+    B --> C[Filter Detections:<br>- Remove Duplicates<br>- Identify Circular/Oval Shapes]
+    C --> D[MobileNetV2: Classify Each Coin]
+    D --> E[Calculate Total Coin Value]
+    E --> F[Output the Overall Coin Value]
+```    
+## Usage
+
+# **CoinVision Application - Usage Guide**
+
+## **Installation**
+
+### **1. Clone the Repository**
+Clone the project repository to your local machine:
+
+```bash
+git clone https://github.com/your-username/coin-vision.git
+cd coin-vision
+```
+
+## Installation
+
+### 1. Install Dependencies
+
+Ensure you have Python installed, then install the required packages using requirements.txt:
+
+```bash
+pip install -r requirements.txt
+```
+
+### 2. Verify Installation
+
+Confirm all dependencies are installed correctly:
+
+```bash
+python -m pip check
+```
+
+## Command-Line Usage
+
+Run the main script using the following command-line options to perform specific actions:
+
+### General Syntax
+
+```bash
+python main.py --action <action>
+```
+
+### Available Actions
+
+1. detect
+
+    Description: Detect coins in the input images and save the results.
+
+    Command:
+
+    ```bash
+    python main.py --action detect
+    ```
+
+2. label
+
+    Description: Label detected coin images for further processing or training.
+
+    Command:
+
+    ```bash
+    python main.py --action label
+    ```
+
+3. train
+
+    Description: Train and evaluate a machine learning model (e.g., MobileNetV2) using labeled coin data.
+
+    Command:
+
+    ```bash
+    python main.py --action train
+    ```
+
+4. test_gpu
+
+    Description: Test if your GPU is being utilized correctly for computations.
+
+    Command:
+
+    ```bash
+    python main.py --action test_gpu
+    ```
+
+5. run
+
+    Description: Calculate the total value of coins in images.
+
+    Command:
+
+    ```bash
+    python main.py --action run
+    ```
+
+## Example Workflow
+
+1. Detect coins in the raw images:
+
+    ```bash
+    python main.py --action detect
+    ```
+
+2. Label the detected coins for classification:
+
+    ```bash
+    python main.py --action label
+    ```
+
+3. Train the model using labeled coin data:
+
+    ```bash
+    python main.py --action train
+    ```
+
+4. Calculate the total value of coins in labeled multi-coin images:
+
+    ```bash
+    python main.py --action run
+    ```
+
+## Notes
+
+- Ensure the configuration paths (config.RAW_IMAGES_FOLDER, config.DETECTION_RESULTS_FOLDER, etc.) are set up correctly in your project configuration file.
+- GPU support is optional but highly recommended for faster detection and processing performance.
+
 
 
 ## Project Organization

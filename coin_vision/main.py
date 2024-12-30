@@ -6,8 +6,7 @@ from .modeling.classify.train import test_gpu
 from .dataset.label_app import label_images
 from .run_detect_and_classify import calculate_image_coin_value
 
-def main():
-    # # Parse command-line arguments
+def main():    # # Parse command-line arguments
     parser = argparse.ArgumentParser(description="CoinVision Application")
     parser.add_argument(
         '--action',
