@@ -1,0 +1,6 @@
+# Ignore directories in data/raw/
+/coin_images_raw copy/*
+/coin_images_raw/*
+/yolo_detected/*
+/raw_images/*
+/raw_sample/*
