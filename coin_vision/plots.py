@@ -58,6 +58,11 @@ def plot_and_save_run_results(results, save_folder="reports"):
     """
     os.makedirs(save_folder, exist_ok=True)
     
+    plt.style.use('dark_background')
+    primary_color = '#58a6ff'  # Blue
+    secondary_color = '#8b949e'  # Grey
+    accent_color = '#c9d1d9'  # White
+    
     # Absolute Error
     results['absolute_error'] = abs(results['coin_value'] - results['true_coin_value'])
     
