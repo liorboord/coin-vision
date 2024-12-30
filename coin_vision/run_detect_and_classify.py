@@ -3,12 +3,14 @@ import sys
 print(sys.path)
 import numpy as np
 from .modeling.detect.coin_ditector import detect_and_extract_coins_from_file
+from .plots import plot_and_save_run_results
 import cv2
 import tensorflow as tf
 from coin_vision import config
 import pandas as pd
+import re
 
-COIN_CLASSIFICATION_PROB_THRESHOLD = 0.9
+COIN_CLASSIFICATION_PROB_THRESHOLD = 0.69
 
 COIN_LABEL_VALUE = {
   "1H": 1,
@@ -76,18 +78,16 @@ def calculate_image_coin_value(folder):
     df = pd.DataFrame(images_coin_data)
     # Print the DataFrame in a table format
     print(df)
-    true_coins_value = 0
-    for filename in df['filename']:
-        if filename.startswith('f_') and filename.endswith('.jpg'):
-            value_str = filename.split('_')[1]
-            try:
-                value = int(value_str)
-                true_coins_value += value
-            except ValueError:
-                pass
-    detected_coins_value = df['coin_value'].sum()
-    error = abs(true_coins_value - detected_coins_value)
-    print(f"True coins value: {true_coins_value}", f"Detected coins value: {detected_coins_value}", f"Error: {error}")
+    # Calculate the sum of all coin values
+    total_coin_value = df['coin_value'].sum()
+    print('Sum of coin values:', total_coin_value)
+
+    # Calculate the sum of all true coin values
+    total_true_coin_value = df['true_coin_value'].sum()
+    print('Sum of true coin values:', total_true_coin_value)
+    print('ratio:', total_coin_value / total_true_coin_value)
+    plot_and_save_run_results(df)
+
 
 def get_coin_in_image_value(coin_data, filename):
     image_coins_value = 0
@@ -102,6 +102,7 @@ def get_coin_in_image_value(coin_data, filename):
     return {
         'filename': filename,
         'coin_value': image_coins_value,
+        'true_coin_value':  int(re.match(r"f_(\d+)", filename).group(1)) if re.match(r"f_(\d+)", filename) else 0,
         'detected_classes': detected_coins
     }
 

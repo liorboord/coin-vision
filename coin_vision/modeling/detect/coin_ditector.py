@@ -14,7 +14,7 @@ model = YOLO('../models/yolov8s.pt')  # You can use 'yolov8n.pt' for a faster, s
 #INPUT_FOLDER = "static/raw_samples"  # Folder containing images with multiple coins
 #OUTPUT_FOLDER = "static/yolo_detected"  # Folder to save extracted coin images
 
-DETECTION_CONFIDENCE_THRESHOLD = 0.001
+DETECTION_CONFIDENCE_THRESHOLD = 0.000001
 IOU_THRESHOLD = 0.05
 
 
@@ -107,8 +107,3 @@ def handle_detected_coins(input_folder, output_folder, output_size, mode='save_r
         # Return a flat list of images
         return [coin_resized_color for images in extracted_images.values() for coin_resized_color in images]
 
-
-
-#handle_detected_coins(config.RAW_IMAGES_FOLDER, config.DETECTION_RESULTS_FOLDER, (config.SINGLE_COIN_IMAGE_SIZE, config.SINGLE_COIN_IMAGE_SIZE))
-
-#detect_and_extract_coins(INPUT_FOLDER)
