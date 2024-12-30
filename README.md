@@ -4,7 +4,23 @@
     <img src="https://img.shields.io/badge/CCDS-Project%20template-328F97?logo=cookiecutter" />
 </a>
 
-The coin-vision Project is a computer vision application designed to identify and extract coins from images with precision. Using the YOLOv8 object detection model for initial identication and MobileNetV2 for coin classifaction. The project first detects circular or oval shapes that correspond to coins in various image formats and then match them to one of the 8 coinc classes. It outputs the value of the coins presented in the picture.
+The coin-vision Project is a computer vision application designed to identify and extract one or more coins from images. It makes use of the [YOLOv8](https://yolov8.com/) object detection model for initial identification and [MobileNetV2](https://arxiv.org/abs/1801.04381) for coin classification.
+
+## Workflow
+
+### Detect
+Using [YOLOv8](https://yolov8.com/)  the code first detects circular or oval shapes that correspond to coins in various image formats. Coins are extracted in 240x240 boxes for further classification
+
+### Filter
+Filters are applied on the generated boxes, first, duplicated boxes are removed, then boxes that contain non oval\round objects are filtered out
+
+### Classify
+With the remaining boxes the code runs classification using [MobileNetV2](https://arxiv.org/abs/1801.04381) . Each coin will be classified as one of 8 classes or Israeli NIS coins. If a coin can not be identified with a threshold defined in `COIN_CLASSIFICATION_PROB_THRESHOLD`, the coin is classified as class NONE
+
+### Calculate
+Calculate the value of the coins found in the image
+
+It outputs the value of the coins presented in the picture.
 
 ```mermaid
 flowchart TD
@@ -15,19 +31,7 @@ flowchart TD
     D --> E[Calculate Total Coin Value]
     E --> F[Output the Overall Coin Value]
 ```    
-## Usage
-
-# **CoinVision Application - Usage Guide**
-
-## **Installation**
-
-### **1. Clone the Repository**
-Clone the project repository to your local machine:
-
-```bash
-git clone https://github.com/your-username/coin-vision.git
-cd coin-vision
-```
+# Usage
 
 ## Installation
 
@@ -61,53 +65,24 @@ python main.py --action <action>
 
 1. detect
 
-    Description: Detect coins in the input images and save the results.
-
-    Command:
-
-    ```bash
-    python main.py --action detect
-    ```
+    Description: Detects coins in the input images and saves the results.
 
 2. label
 
     Description: Label detected coin images for further processing or training.
 
-    Command:
-
-    ```bash
-    python main.py --action label
-    ```
-
 3. train
 
     Description: Train and evaluate a machine learning model (e.g., MobileNetV2) using labeled coin data.
-
-    Command:
-
-    ```bash
-    python main.py --action train
-    ```
 
 4. test_gpu
 
     Description: Test if your GPU is being utilized correctly for computations.
 
-    Command:
-
-    ```bash
-    python main.py --action test_gpu
-    ```
-
 5. run
 
     Description: Calculate the total value of coins in images.
 
-    Command:
-
-    ```bash
-    python main.py --action run
-    ```
 
 ## Example Workflow
 
@@ -162,7 +137,7 @@ python main.py --action <action>
 │                         the creator's initials, and a short `-` delimited description, e.g.
 │                         `1.0-jqp-initial-data-exploration`.
 │
-├── pyproject.toml     <- Project configuration file with package metadata for 
+├── pyproject.toml     <- Project configuration file with package metadata for
 │                         coin_vision and configuration for tools like black
 │
 ├── references         <- Data dictionaries, manuals, and all other explanatory materials.
@@ -186,7 +161,7 @@ python main.py --action <action>
     ├── features.py             <- Code to create features for modeling
     │
     ├── modeling                
-    │   ├── __init__.py 
+    │   ├── __init__.py
     │   ├── predict.py          <- Code to run model inference with trained models          
     │   └── train.py            <- Code to train models
     │
@@ -194,4 +169,3 @@ python main.py --action <action>
 ```
 
 --------
-
