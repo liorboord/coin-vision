@@ -31,6 +31,17 @@ flowchart TD
     D --> E[Calculate Total Coin Value]
     E --> F[Output the Overall Coin Value]
 ```    
+# Results
+Below are the results of running detection on multi coin images
+
+## Absolute error per image
+![1](reports/absolute_error_per_image.png)
+
+## Cummlative true vs predicted
+![1](reports/cumulative_true_vs_predicted.png)
+
+
+
 # Usage
 
 ## Installation
