@@ -3,6 +3,13 @@
 # Mac OS-specific storage files
 .DS_Store
 
+# IDE
+.idea/
+.vscode/
+
+#env
+.env
+
 # vim
 *.swp
 *.swo
