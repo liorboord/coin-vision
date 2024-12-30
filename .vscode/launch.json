@@ -1,0 +1,19 @@
+{
+    "version": "0.2.0",
+    "configurations": [
+        {
+            "name": "Python: Debug Script with Args",
+            "type": "python",
+            "request": "launch",
+            "program": "${workspaceFolder}/coin_vision/main.py", // Adjust this path to your script
+            "console": "integratedTerminal",
+            "env": {
+                "PYTHONPATH": "${workspaceFolder}" // Set coin-vision as the root
+            },
+            "args": [
+                "--action",
+                "detect" // Replace with the arguments your script expects
+            ]
+        }
+    ]
+}
