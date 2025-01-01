@@ -4,9 +4,14 @@
     <img src="https://img.shields.io/badge/CCDS-Project%20template-328F97?logo=cookiecutter" />
 </a>
 
-The coin-vision Project is a computer vision application designed to identify and extract one or more coins from images. It makes use of the [YOLOv8](https://yolov8.com/) object detection model for initial identification and [MobileNetV2](https://arxiv.org/abs/1801.04381) for coin classification.
+The coin-vision Project is a computer vision application designed to identify and extract one or more coins from images. It makes use of the  object detection model for initial identification and  for coin classification.
+
+## Architecture
+In order to reduce training complexity and implement software development best practices, the code follows a modular architecture, separating concerns into distinct functions for coin detection, filtering, and result handling. Two separate models are used to detect and classify the coins. An out of the box [YOLOv8](https://yolov8.com/) model with no additional training serves as the backbone for object detection. Filters are used to compensate for the lack of training. [MobileNetV2](https://arxiv.org/abs/1801.04381) is then used to classify the detected items, this classification model was trained with only a few dozens training samples per class. Filters are used again to compensate and disqualify items that are classified with low confidence and mark them as class "None".
 
 ## Workflow
+
+![1](images/workflow.png) 
 
 ### Detect
 Using [YOLOv8](https://yolov8.com/)  the code first detects circular or oval shapes that correspond to coins in various image formats. Coins are extracted in 240x240 boxes for further classification
@@ -22,7 +27,7 @@ Calculate the value of the coins found in the image
 
 It outputs the value of the coins presented in the picture.
 
-![1](images/workflow.png) 
+
 # Results
 Below are the results of running detection on multi coin images
 
