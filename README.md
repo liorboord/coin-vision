@@ -22,15 +22,7 @@ Calculate the value of the coins found in the image
 
 It outputs the value of the coins presented in the picture.
 
-```mermaid
-flowchart TD
-    A[Input Image with Coins]
-    A --> B[YOLOv8: Detect Coins]
-    B --> C[Filter Detections:<br>- Remove Duplicates<br>- Identify Circular/Oval Shapes]
-    C --> D[MobileNetV2: Classify Each Coin]
-    D --> E[Calculate Total Coin Value]
-    E --> F[Output the Overall Coin Value]
-```    
+![1](images/workflow.png) 
 # Results
 Below are the results of running detection on multi coin images
 
